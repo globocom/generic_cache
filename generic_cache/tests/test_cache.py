@@ -1,6 +1,5 @@
 import unittest
 import mock
-# from ..example import Random, RandomMultiple, RandomOtherName
 from ..cache import (
     GenericCache, GenericCacheMultiple, BaseCacheKey, generic_cached_method, ArgsCacheKey
 )
