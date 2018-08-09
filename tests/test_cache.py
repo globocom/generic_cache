@@ -1,7 +1,7 @@
 import unittest
 import mock
 from ..cache import (
-    GenericCache, GenericCacheMultiple, BaseCacheKey, generic_cached_method, ArgsCacheKey
+    GenericCache, GenericCacheMultiple, BaseCacheKey, generic_cached_method, ArgsCacheKey,
 )
 from ..backend import BaseBackend, InMemoryCache
 
