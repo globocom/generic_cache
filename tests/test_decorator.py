@@ -1,9 +1,9 @@
 import mock
 import unittest
 
-from ..decorator import CacheDecorator
-from ..backend import InMemoryCache, BaseBackend
-from ..key_builder import MethodKeyBuilder, ArgsCacheKey
+from generic_cache.decorator import CacheDecorator
+from generic_cache.backend import InMemoryCache, BaseBackend
+from generic_cache.key_builder import MethodKeyBuilder, ArgsCacheKey
 
 
 class DecoratorTestCase(unittest.TestCase):
@@ -20,7 +20,7 @@ class DecoratorTestCase(unittest.TestCase):
         )
 
     def get_key_builder(self):
-        from ..key_builder import FunctionKeyBuilder
+        from generic_cache.key_builder import FunctionKeyBuilder
         return FunctionKeyBuilder()
 
     def test_decorator_should_set_a_flush_function_on_the_function(self):

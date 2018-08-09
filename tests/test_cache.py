@@ -1,9 +1,9 @@
 import unittest
 import mock
-from ..cache import (
+from generic_cache.cache import (
     GenericCache, GenericCacheMultiple, BaseCacheKey, generic_cached_method, ArgsCacheKey,
 )
-from ..backend import BaseBackend, InMemoryCache
+from generic_cache.backend import BaseBackend, InMemoryCache
 
 
 class MockedCachedBacked(BaseBackend):

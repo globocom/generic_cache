@@ -1,5 +1,5 @@
 import unittest
-from ..key_builder import BaseCacheKey, ArgsCacheKey
+from generic_cache.key_builder import BaseCacheKey, ArgsCacheKey
 
 
 class TestBaseCacheKey(unittest.TestCase):
@@ -35,7 +35,7 @@ class BaseKeyBuilderTestCase(unittest.TestCase):
 
 class FunctionKeyBuilderTestCase(BaseKeyBuilderTestCase):
     def get_builder(self):
-        from ..key_builder import FunctionKeyBuilder
+        from generic_cache.key_builder import FunctionKeyBuilder
         return FunctionKeyBuilder()
 
     def test_build_key_should_return_a_key_that_matches_args_and_kwargs(self):
@@ -55,7 +55,7 @@ class FunctionKeyBuilderTestCase(BaseKeyBuilderTestCase):
 
 class MethodKeyBuilderTestCase(BaseKeyBuilderTestCase):
     def get_builder(self):
-        from ..key_builder import MethodKeyBuilder
+        from generic_cache.key_builder import MethodKeyBuilder
         return MethodKeyBuilder()
 
     def test_key_str_should_ignore_self_args(self):
