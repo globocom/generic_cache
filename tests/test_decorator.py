@@ -3,7 +3,7 @@ import unittest
 
 from generic_cache.decorator import CacheDecorator
 from generic_cache.backend import InMemoryCache, BaseBackend
-from generic_cache.key_builder import MethodKeyBuilder, ArgsCacheKey
+from generic_cache.key_builder import MethodKeyBuilder, AttrsMethodKeyBuilder, ArgsCacheKey
 
 
 class DecoratorTestCase(unittest.TestCase):
@@ -62,12 +62,15 @@ class MockedCachedBacked(BaseBackend):
 cache_backend = InMemoryCache()
 mocked_cache_backend = MockedCachedBacked()
 key_builder = MethodKeyBuilder()
+attr_key_builder = AttrsMethodKeyBuilder(['uid'])
 cache_dec = CacheDecorator("Test.", cache_backend, key_builder)
 mocked_cache_dec = CacheDecorator("Test.", mocked_cache_backend, key_builder)
+attrs_cache_dec = CacheDecorator("Test.", cache_backend, attr_key_builder)
 
 
 class GenericCached(object):
     lyst = [1, 2, 3, 4]
+    uid = 'bla'
 
     @cache_dec('get_first')
     def get_first(self):
@@ -83,6 +86,10 @@ class GenericCached(object):
 
     @mocked_cache_dec('version_test', key_version=3)
     def version_test(self, a):
+        return a
+
+    @attrs_cache_dec('attrs_test', key_version=3)
+    def attrs_test(self, a):
         return a
 
 
@@ -127,3 +134,12 @@ class TesteGenericCachedMethod(unittest.TestCase):
         MockedCachedBacked.set.assert_called_with(
             str(expected_key), 1, timeout=None
         )
+    
+    def test_attrs_key_builder(self):
+        instance = GenericCached()
+        instance.attrs_test(1)
+        expected_key = ArgsCacheKey(
+            'Test.attrs_test', a=1, key_version=3, uid=instance.uid
+        )
+        self.assertEqual(1, cache_backend.get(expected_key.key_str))
+        

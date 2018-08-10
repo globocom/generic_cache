@@ -72,3 +72,20 @@ class MethodKeyBuilderTestCase(BaseKeyBuilderTestCase):
         _test_based_on_args(1, 2)
         _test_based_on_args(1, b=2)
 
+
+class AttrsMethodKeyBuilderTestCase(BaseKeyBuilderTestCase):
+    def get_builder(self):
+            from generic_cache.key_builder import AttrsMethodKeyBuilder
+            return AttrsMethodKeyBuilder(['id'])
+    
+    def test_key_str_should_include_passed_args(self):
+        class Sample(object):
+            id = 'uniq'
+            def sample_method(self, a):
+                pass
+            
+        s = Sample()
+        expected_key_str = 'sample__a_1__id_uniq'
+        key_str = self.builder.build_key('sample', s.sample_method, s, 1).key_str
+        self.assertEqual(expected_key_str, key_str)
+        

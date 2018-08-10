@@ -50,15 +50,17 @@ def _get_func_kwargs(method, *args, **kwargs):
     '''
     import inspect
     from copy import copy
-    kwargs = copy(kwargs)
+    from collections import OrderedDict
+    
+    normalized_kwargs = OrderedDict()
     args_spec = inspect.getargspec(method)
     if args_spec.varargs is not None:
         raise ValueError("method must not have vargargs on its signature")
 
     for i, arg in enumerate(args):
-        # skiping args_spec.args[0] because it will be either self or cls ()
-        kwargs[args_spec.args[i]] = arg
-    return kwargs
+        normalized_kwargs[args_spec.args[i]] = arg
+    normalized_kwargs.update(kwargs)
+    return normalized_kwargs
 
 
 class ArgsCacheKey(BaseCacheKey):
@@ -127,6 +129,19 @@ class FunctionKeyBuilder(BaseKeyBuilder):
 
 class MethodKeyBuilder(FunctionKeyBuilder):
     def get_normalized_kwargs(self, func, *func_args, **func_kwargs):
-        kwargs = _get_func_kwargs(func, *func_args, **func_kwargs)
+        kwargs = super(MethodKeyBuilder, self).get_normalized_kwargs(func, *func_args, **func_kwargs)
         kwargs.pop('self')
+        return kwargs
+
+
+class AttrsMethodKeyBuilder(MethodKeyBuilder):
+    def __init__(self, attrs, *args, **kwargs):
+        super(AttrsMethodKeyBuilder, self).__init__(*args, **kwargs)
+        self.attrs = attrs
+    
+    def get_normalized_kwargs(self, func, *func_args, **func_kwargs):
+        kwargs = super(AttrsMethodKeyBuilder, self).get_normalized_kwargs(func, *func_args, **func_kwargs)
+        instance = func_args[0]
+        for attr in self.attrs:
+            kwargs[attr] = getattr(instance, attr)
         return kwargs
