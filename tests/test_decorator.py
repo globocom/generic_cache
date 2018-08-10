@@ -23,13 +23,6 @@ class DecoratorTestCase(unittest.TestCase):
         from generic_cache.key_builder import FunctionKeyBuilder
         return FunctionKeyBuilder()
 
-    def test_decorator_should_set_a_flush_function_on_the_function(self):
-        @self.decorator("hey")
-        def _decorated_fun(self, ha):
-            pass
-
-        _decorated_fun.flush()
-
     def test_decorator_factory_should_have_the_following_attributes(self):
         self.assertEqual(self.key_prefix, self.decorator._key_prefix)
         self.assertEqual(self.cache_backend, self.decorator._cache_backend)

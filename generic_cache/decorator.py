@@ -32,8 +32,7 @@ class CacheDecorator(object):
                     key, call_original, disable_cache=disable_cache,
                     disable_cache_overwrite=disable_cache_overwrite
                 )
-
-            decorated.flush = self._flush
+            decorated.cache = CacheHandler(func, self, key_type, key_version)
             return decorated
         return decorator
 
@@ -49,7 +48,21 @@ class CacheDecorator(object):
         key_prefix = self._key_prefix + key_type
         return self._key_builder.build_key(key_prefix, original_func, *func_args, **func_kwargs)
 
-    @staticmethod
-    def _flush():
-        pass
 
+class CacheHandler(object):
+    def __init__(self, func, decorator_factory, key_type, key_version):
+        self.func = func
+        self.decorator_factory = decorator_factory
+        self.key_version = key_version
+        self.key_type = key_type
+    
+    def _call_cache(self, method, *args, **kwargs):
+        key = self.decorator_factory._build_key(self.key_type, self.func, *args, **kwargs)
+        method = getattr(self.decorator_factory._generic_cache, method)
+        return method(key)
+    
+    def get(self, *args, **kwargs):
+        return self._call_cache("get_from_cache", *args, **kwargs)
+    
+    def flush(self, *args, **kwargs):
+        return self._call_cache("flush", *args, **kwargs)
