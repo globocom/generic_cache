@@ -1,3 +1,7 @@
+# Copyright (c) 2018, Globo.com (https://github.com/globocom)
+#
+# License: MIT
+
 from datetime import datetime, timedelta
 
 

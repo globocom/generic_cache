@@ -1,3 +1,7 @@
+# Copyright (c) 2018, Globo.com (https://github.com/globocom)
+#
+# License: MIT
+
 import unittest
 import mock
 from generic_cache.cache import (

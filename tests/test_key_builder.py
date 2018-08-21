@@ -1,3 +1,7 @@
+# Copyright (c) 2018, Globo.com (https://github.com/globocom)
+#
+# License: MIT
+
 import unittest
 from generic_cache.key_builder import BaseCacheKey, ArgsCacheKey
 

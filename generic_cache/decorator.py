@@ -1,4 +1,6 @@
-
+# Copyright (c) 2018, Globo.com (https://github.com/globocom)
+#
+# License: MIT
 
 class CacheDecorator(object):
     def __init__(self, key_prefix, cache_backend, key_builder, default_timeout=None):
