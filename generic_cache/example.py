@@ -15,12 +15,12 @@ class User(object):
     
     @user_cache("get_data")
     def get_data(self):
-        time.sleep(3)
+        time.sleep(2)
         return {"name": "Robert Paulson"}
     
     @user_cache("get_photo_url")
     def get_photo_url(self, photo_type):
-        time.sleep(3)
+        time.sleep(2)
         return "http://myphoto.who/{}/{}".format(self.id, photo_type)
 
 
