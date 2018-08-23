@@ -6,14 +6,19 @@ from datetime import datetime, timedelta
 
 
 class BaseBackend(object):
+    """
+    Abstract class that acts like every Cache Backend Interface. Extend it
+    to implement your own Cache Backend.
+    """
+
     def get(self, key):
-        return None
+        raise NotImplementedError("Subclasses should implement this method")
 
     def set(self, key, value, timeout=None):
-        return None
+        raise NotImplementedError("Subclasses should implement this method")
 
     def delete(self, key):
-        return None
+        raise NotImplementedError("Subclasses should implement this method")
 
 
 class InMemoryCache(BaseBackend):

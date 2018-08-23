@@ -86,4 +86,11 @@ class TestGenericCache(CacheBaseTestCase):
         key = generic.get_key('type', 1, 2, kw='kwarg')
         self.assertEqual('MyCustomClass.type__1__2__kw_kwarg', key.key_str)
 
+    def test_raise_not_implemented_error(self):
+        """ Should not allow to use BaseBackend. It is an abstract class """
 
+        base = BaseBackend()
+
+        self.assertRaises(NotImplementedError, base.get, "key")
+        self.assertRaises(NotImplementedError, base.set, "key", "value")
+        self.assertRaises(NotImplementedError, base.delete, "key")
