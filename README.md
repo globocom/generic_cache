@@ -40,6 +40,14 @@ result = summer.long_id_sum(1)
 result = Summer(42).long_id_sum(1)
 ```
 
+## What Generic Cache differs from Python functools LRU Cache?
+
+The major difference is that you can program your own cache Backend.
+Python functools [native cache](https://docs.python.org/3/library/functools.html#functools.lru_cache) uses LRU policy.
+So, if you would like to have, for example,  a cache that uses a Heap Tree you can
+create it by simply extending [BaseBackend](https://github.com/globocom/generic_cache/blob/master/generic_cache/backend.py#L8) class
+and pass it to the cache decorator.
+
 ## Glad you are still here, let's dive deeper!
 
 To instantiate a decorator you will need 3 things:
